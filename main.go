@@ -43,3 +43,11 @@ func shortenHandler(w http.ResponseWriter, r *http.Request) {
 	shortenedURL := baseURL + shortURL
 	fmt.Fprintf(w, "Shortened URL: %s", shortenedURL)
 }
+
+func generateShortURL() string {
+	shortURL := make([]rune, shortURLLen)
+	for i := range shortURL {
+		shortURL[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(shortURL)
+}

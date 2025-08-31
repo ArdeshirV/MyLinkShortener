@@ -9,6 +9,14 @@ import (
 
 func main() {
 	fmt.Println(Prompt("My Link Shortener"))
+
+	http.HandleFunc("/", redirectHandler)
+	http.HandleFunc("/shorten", shortenHandler)
+
+	slog.Info("Server started on http://localhost:8080")
+	if err := http.ListenAndServe("localhost:8080", nil); err != nil {
+		slog.Error(err.Error())
+	}
 }
 
 const (

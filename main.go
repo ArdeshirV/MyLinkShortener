@@ -22,10 +22,24 @@ var (
 )
 
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
-    shortURL := r.URL.Path[1:]
-    if url, ok := urlMap[shortURL]; ok {
-        http.Redirect(w, r, url, http.StatusFound)
-    } else {
-        http.NotFound(w, r)
-    }
+	shortURL := r.URL.Path[1:]
+	if url, ok := urlMap[shortURL]; ok {
+		http.Redirect(w, r, url, http.StatusFound)
+	} else {
+		http.NotFound(w, r)
+	}
+}
+
+func shortenHandler(w http.ResponseWriter, r *http.Request) {
+	url := r.FromValue("url")
+	if url == "" {
+		http.Error(w, "URL cannot be empty", http.StatusBadRequest)
+		return
+	}
+
+	shortURL := generateShortURL()
+	urlMap[shortURL] = url
+
+	shortenedURL := baseURL + shortURL
+	fmt.Fprintf(w, "Shortened URL: %s", shortenedURL)
 }

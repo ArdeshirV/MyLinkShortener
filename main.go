@@ -39,7 +39,7 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func shortenHandler(w http.ResponseWriter, r *http.Request) {
-	url := r.FromValue("url")
+	url := r.FormValue("url")
 	if url == "" {
 		http.Error(w, "URL cannot be empty", http.StatusBadRequest)
 		return
